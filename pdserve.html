@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>pdfread example</title>
+</head>
+<body>
+<h1>pdfread example</h1>
+<script type="text/javascript">
+function go(n) {
+  document.getElementById("disp").src = "http://localhost:12345/hello?" + n;
+  document.getElementById("page").value = n;
+}
+function Page() {
+  return document.getElementById("page").value/1;
+} 
+</script>
+<center>
+<form onsubmit="go(Page()); return false;">
+<a href="javascript:go(Page()-1)">Prev</a> |
+<input id="page" textwidth="5" />
+| <a href="javascript:go(Page()+1)">Next</a>
+</form>
+<iframe id="disp" width="765" height="990">
+</iframe>
+</center>
+<script type="text/javascript">
+go(1);
+</script>
+</body>
+</html>

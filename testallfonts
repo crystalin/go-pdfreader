@@ -1,0 +1,7 @@
+#! /bin/sh
+find \
+   /usr/share/fonts \
+   /usr/share/texmf-texlive/fonts/ \
+   -type f -regex '.*pf[ab]' \
+   -exec ./testfont {} \;
+echo

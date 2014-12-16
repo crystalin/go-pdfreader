@@ -1,0 +1,3 @@
+#! /bin/sh
+bn="`basename "$1"`"
+[ ! -f "$bn" ] && ./mkfont.pe "$1" "$bn"

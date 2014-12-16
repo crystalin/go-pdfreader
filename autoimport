@@ -1,0 +1,55 @@
+#! /usr/bin/perl
+
+# Quick and dirty auto-importer for Go-sources.
+
+use strict;
+
+my %lib;
+open LIB, "cd $ENV{GOROOT}/pkg && find .|" or die;
+while (<LIB>) {
+  chop;
+  next if !s/[.]a$//;
+  s/^\.\/$ENV{GOOS}_$ENV{GOARCH}\///;
+  /([^\/]+)$/;
+  $lib{$1} = $_;
+}
+close LIB;
+
+my $file = $ARGV[0];
+$file =~ s/\.go$//;
+my $orig = "";
+my $source = "";
+while (<>) {
+ $orig .= $_;
+ s/\/\/.*$/\n/;
+ $source .= $_;
+}
+while ($source =~ /\/[*]/) {
+  my $p = $-[0];
+  $source =~ /[*]\// or last;
+  substr($source, $p, $+[0]-$p) = "";
+}
+
+my %used;
+$used{$1} = 1 while $source =~ /([a-z0-9]+)\./g;
+
+my @imports;
+for (sort keys %used) {
+  next if $_ eq $file;
+  if (-f "$_.go") {
+    push @imports, $_
+  } else {
+    push @imports, $lib{$_} if defined $lib{$_};
+  }
+}
+my $import = "";
+if (scalar @imports) {
+  $import .= "import (\n";
+  $import .= "  \"". join("\"\n  \"", sort @imports). "\"\n";
+  $import .= ")\n";
+}
+
+$orig =~ s/import "[^"]+"\n?//g;
+$orig =~ s/import \([^)]+\)\n?//g;
+$orig =~ s/(package \S+\n\n?)/$1$import/;
+print $orig;

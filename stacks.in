@@ -1,0 +1,72 @@
+#! /usr/bin/perl
+
+while (<DATA>) {
+  /^%%\s*$/ and last;
+  print $_;
+}
+my $template = join('', <DATA>);
+
+sub stack {
+  my ($stackt, $type) = @_;
+  my $out = $template;
+  $out =~ s/%%S/$stackt/g;
+  $out =~ s/%%T/$type/g;
+  print $out;
+}
+
+stack qw(Stack []byte);
+stack qw(StrStack string);
+
+__DATA__
+// Stacks of different types.
+package stacks
+
+%%
+type %%S interface {
+  Push(%%T)
+  Pop() %%T
+  Drop(int) (st []%%T)
+  Dump() []%%T
+  Depth() int
+  Index(p int) %%T
+  Clear()
+}
+
+type %%ST struct {
+  st []%%T
+  sp int
+  limit bool
+}
+func (st *%%ST) Push(s %%T) {
+  if st.sp >= len(st.st) && !st.limit {
+    t := make([]%%T, len(st.st)+1024)
+    st.sp = 0
+    for k := range st.st {
+      t[k] = st.st[k]
+      st.sp++
+    }
+    st.st = t
+  }
+  st.st[st.sp] = s
+  st.sp++
+}
+func (st *%%ST) Drop(n int) []%%T {
+  st.sp -= n
+  return st.st[st.sp : st.sp+n]
+}
+func (st *%%ST) Pop() %%T {
+  st.sp--
+  return st.st[st.sp]
+}
+func (st *%%ST) Dump() []%%T { return st.st[0:st.sp] }
+func (st *%%ST) Depth() int { return st.sp }
+func (st *%%ST) Index(p int) %%T { return st.st[st.sp-p] }
+func (st *%%ST) Clear() { st.sp = 0 }
+func New%%S(n int) *%%ST {
+  r := new(%%ST)
+  if r.limit = n >= 0; !r.limit {
+    n = 1024;
+  }
+  r.st = make([]%%T, n)
+  return r
+}

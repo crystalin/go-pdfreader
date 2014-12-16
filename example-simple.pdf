@@ -1,0 +1,198 @@
+%PDF-1.0
+%‰ˆ¸ƒ÷‹ﬂ
+2 0 obj
+<<
+/Type /Page
+/Parent 1 0 R
+/Contents 3 0 R
+>>
+endobj
+3 0 obj
+<< /Length 1926 >>
+stream
+BT
+/F1 10 Tf 12 TL
+82 817 Td
+(#! /bin/bash) '
+(# PDFcat 0.01 \(c\) 2000, 2001 by Helmar Wodtke) '
+(BASENAME="`basename $0`") '
+(TMPFILE="$BASENAME.T$$T") '
+(VARFILE="$BASENAME.V$$V") '
+() '
+(AWK="awk") '
+() '
+($AWK 'BEGIN {) '
+(        on=2) '
+(        varfile="'"$VARFILE"'") '
+(        print "%PDF-1.0") '
+(        print "%\\344\\366\\374\\304\\326\\334\\337") '
+(        tstream\(\)) '
+(}) '
+(function tabs\(s\) {) '
+(        tn = split\(s, ta, /\\t/\); tr = "") '
+(        for \(i=1; i<tn; i++\) {) '
+(                tr = tr""ta[i]) '
+(                tr = tr""substr\("        ", 1, 8-length\(tr\)%8\)) '
+(        }) '
+(        return tr""ta[i]) '
+(}) '
+(function outs\(s\) {) '
+(        text[++lp] = s"\\n";) '
+(        size += length\(text[lp]\)) '
+(}) '
+(function out\(s\) {) '
+(        gsub\(/[\(\)\\\\]/, "\\\\\\\\&", s\)) '
+(        outs\("\("s"\) '\\''"\);) '
+(}) '
+(function tstream\(\) {) '
+(        line=size=lp=0;) '
+(        outs\("BT"\)) '
+(        outs\("/F1 10 Tf 12 TL"\)) '
+(        outs\("82 817 Td"\)) '
+(}) '
+(/\\14/ {page\(\); next}) '
+({gsub\(".\\b",""\); out\(tabs\($0\)\); if \(++line==66\) page\(\)}) '
+(function page\(\) {) '
+(        outs\("ET"\)) '
+(        print on++" 0 obj") '
+(        print "<<") '
+(        print "/Type /Page") '
+(        print "/Parent 1 0 R") '
+(        print "/Contents "on" 0 R") '
+(        print ">>") '
+(        print "endobj") '
+(        print on" 0 obj") '
+(        print "<< /Length "size" >>") '
+(        print "stream") '
+(        for \(i=1; i<=lp; i++\) printf\("%s", text[i]\);) '
+(        print "endstream") '
+(        print "endobj") '
+(        on++;) '
+(        tstream\(\)) '
+(}) '
+(END {) '
+(        if \(line\) page\(\)) '
+(        pages=on/2-1) '
+(        print \(font=on++\)" 0 obj") '
+(        print "<<") '
+(        print "/Type /Font") '
+(        print "/Subtype /Type1") '
+(        print "/Name /F1") '
+(        print "/BaseFont /Courier") '
+ET
+endstream
+endobj
+4 0 obj
+<<
+/Type /Page
+/Parent 1 0 R
+/Contents 5 0 R
+>>
+endobj
+5 0 obj
+<< /Length 1528 >>
+stream
+BT
+/F1 10 Tf 12 TL
+82 817 Td
+(        print "/Encoding /WinAnsiEncoding") '
+(        print ">>") '
+(        print "endobj") '
+(        print "1 0 obj") '
+(        print "<<") '
+(        print "/Type /Pages") '
+(        print "/Resources <<") '
+(        print "  /Font << /F1 "font" 0 R >>") '
+(        print "  /ProcSet [ /PDF /Text ]") '
+(        print ">>") '
+(        print "/MediaBox [0 0 595 842]") '
+(        print "/Count "pages) '
+(        print "/Kids [") '
+(        for \(i=1; i<=pages; i++\) print i*2" 0 R") '
+(        print "]") '
+(        print ">>") '
+(        print "endobj") '
+(        print \(root=on++\)" 0 obj") '
+(        print "<<") '
+(        print "/Type /Catalog") '
+(        print "/Pages 1 0 R") '
+(        print ">>") '
+(        print "endobj") '
+(        print "OBJN="on >varfile) '
+(        print "ROOT="root >>varfile) '
+(}' "$@" >"$TMPFILE") '
+(. "$VARFILE") '
+(PUTXREF='END {) '
+(        printf\("0 %d\\n", max+1\)) '
+(        for \(i=0; i<=max; i++\)) '
+(                if \(tab[i]!=""\) printf\("%010d 00000 n \\n", tab[i]\);) '
+(                else print "0000000000 65535 f "}') '
+(  XREF=`cat "$TMPFILE" | grep -b '^[0-9][0-9]* [0-9][0-9]* obj$' | \\) '
+(  $AWK -F "[: ]" ') '
+(        BEGIN {max=0}) '
+(        {tab[$2]=$1; if \($2>max\) max=$2}) '
+(  '"$PUTXREF"`) '
+(cat "$TMPFILE" - <<EOF) '
+(xref) '
+($XREF) '
+(trailer) '
+(<<) '
+(/Size $OBJN) '
+(/Root $ROOT 0 R) '
+(>>) '
+(startxref) '
+(`ls -l "$TMPFILE" | $AWK '{printf $5}'`) '
+(%%EOF) '
+(EOF) '
+(rm -f "$TMPFILE" "$VARFILE") '
+ET
+endstream
+endobj
+6 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Courier
+/Encoding /WinAnsiEncoding
+>>
+endobj
+1 0 obj
+<<
+/Type /Pages
+/Resources <<
+  /Font << /F1 6 0 R >>
+  /ProcSet [ /PDF /Text ]
+>>
+/MediaBox [0 0 595 842]
+/Count 2
+/Kids [
+2 0 R
+4 0 R
+]
+>>
+endobj
+7 0 obj
+<<
+/Type /Catalog
+/Pages 1 0 R
+>>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000003805 00000 n 
+0000000018 00000 n 
+0000000081 00000 n 
+0000002058 00000 n 
+0000002121 00000 n 
+0000003700 00000 n 
+0000003961 00000 n 
+trailer
+<<
+/Size 8
+/Root 7 0 R
+>>
+startxref
+4010
+%%EOF

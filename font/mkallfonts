@@ -1,0 +1,6 @@
+#! /bin/sh
+exec find \
+   /usr/share/fonts \
+   /usr/share/texmf-texlive/fonts/ \
+   -type f -regex '.*\(ttf\|pf[ab]\|otf\)' \
+   -exec ./mkfont {} \;

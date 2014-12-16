@@ -1,0 +1,31 @@
+#! /usr/bin/perl
+
+use POSIX qw(isatty);
+
+if (!isatty(STDIN)) {
+  while (<STDIN>) {
+    last if /^# -- depends --$/;
+    print $_;
+  }
+}
+
+print "# -- depends --\n";
+for (@ARGV) {
+  $k = $_;
+  $k =~ s/[.]go$//;
+  open GO, "<$k.go" or die;
+  my $go = join('', <GO>);
+  close GO;
+  my %deps;
+  while ($go =~ /import\s+("[^"]*"|\([^)]*\))/gs) {
+    my $i = $1;
+    while ($i =~ /"([^"]*)"/g) {
+      $deps{$1} = 1 if -f "$1.go";
+    }
+  }
+  if (scalar(%deps)) {
+    print "$k.\$O:";
+    print " $_.\$O" for sort keys %deps;
+    print "\n";       
+  }
+}
