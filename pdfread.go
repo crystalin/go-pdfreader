@@ -435,22 +435,18 @@ func Load(fn string) *PdfReaderT {
 	r.File = fn
 	r.rdr = fancy.FileReader(fn)
 	if r.Startxref = xrefStart(r.rdr); r.Startxref == -1 {
-		log.Printf("Startxref -1")
 		return nil
 	}
 	if r.Xref = xrefRead(r.rdr, r.Startxref); r.Xref == nil {
-		log.Printf("Xref nil")
 		return nil
 	}
 	r.rdr.Seek(int64(xrefSkip(r.rdr, r.Startxref)), 0)
 	s, _ := ps.Token(r.rdr)
 	if string(s) != "trailer" {
-		log.Printf("trailer")
 		return nil
 	}
 	s, _ = ps.Token(r.rdr)
 	if r.Trailer = Dictionary(s); r.Trailer == nil {
-		log.Printf("Trailer nil")
 		return nil
 	}
 	r.rcache = make(map[string][]byte)
